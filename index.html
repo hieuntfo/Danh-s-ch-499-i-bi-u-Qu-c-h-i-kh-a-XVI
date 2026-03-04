@@ -169,37 +169,59 @@
     <!-- Header -->
     <header id="mainHeader" class="border-b border-gray-200 bg-white sticky top-0 z-40 py-2 transition-transform duration-300">
         <div class="container mx-auto px-4 max-w-[1920px]">
-            <!-- Row 1: Icons and Logo -->
-            <div class="flex items-center justify-between mb-2 relative">
-                <div class="flex items-center">
-                    <button class="text-gray-500 hover:text-primary">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                    </button>
+            <!-- Desktop Header (One row) -->
+            <div class="hidden lg:flex items-center justify-between relative h-12">
+                <div class="flex items-center gap-3">
+                    <a href="https://vnexpress.net/" target="_blank" class="flex items-center">
+                        <img src="https://s1.vnecdn.net/vnexpress/restruct/i/v863/v2_2019/pc/graphics/logo.svg" alt="VnExpress" class="h-6">
+                    </a>
+                    <span class="text-gray-300">|</span>
+                    <a href="http://vnexpress.net/thoi-su/bau-cu-dai-bieu-quoc-hoi-khoa-16" target="_blank" class="text-sm font-bold text-gray-700 hover:text-primary transition-colors">
+                        Bầu cử Đại biểu Quốc hội khóa 16
+                    </a>
                 </div>
                 
-                <div class="absolute left-1/2 -translate-x-1/2">
-                    <img src="https://s1.vnecdn.net/vnexpress/restruct/i/v863/v2_2019/pc/graphics/logo.svg" alt="VnExpress" class="h-6">
+                <div class="absolute left-1/2 -translate-x-1/2 text-center">
+                    <h1 class="text-xl font-bold text-primary font-serif leading-tight">
+                        Danh sách 500 đại biểu Quốc hội khóa XVI
+                    </h1>
                 </div>
                 
                 <div class="flex items-center gap-2">
-                    <!-- Share Button (Mobile Header) -->
-                    <button id="headerShareBtn" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary lg:hidden">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
-                    </button>
-                    <!-- Desktop Social Icons -->
-                    <div class="hidden lg:flex items-center gap-2">
-                        <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200">f</button>
-                        <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200">X</button>
-                    </div>
+                    <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200">f</button>
+                    <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200">X</button>
                 </div>
             </div>
-            
-            <!-- Row 2: Title -->
-            <div class="text-center">
-                <h1 class="text-lg md:text-xl font-bold text-primary font-serif leading-tight">
-                    <span class="block sm:inline">Danh sách 500 đại biểu Quốc hội</span>
-                    <span class="block sm:inline">khóa XVI</span>
-                </h1>
+
+            <!-- Mobile Header (Two rows) -->
+            <div class="lg:hidden">
+                <!-- Row 1: Logo and Share -->
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                        <a href="https://vnexpress.net/" target="_blank" class="flex items-center">
+                            <img src="https://s1.vnecdn.net/vnexpress/restruct/i/v863/v2_2019/pc/graphics/logo.svg" alt="VnExpress" class="h-5">
+                        </a>
+                        <span class="text-gray-300 text-xs">|</span>
+                        <a href="http://vnexpress.net/thoi-su/bau-cu-dai-bieu-quoc-hoi-khoa-16" target="_blank" class="text-[10px] font-bold text-gray-700 hover:text-primary transition-colors uppercase tracking-tight">
+                            Bầu cử Đại biểu Quốc hội khóa 16
+                        </a>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <!-- Share Button (Mobile Header) -->
+                        <button id="headerShareBtn" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Row 2: Title -->
+                <div class="text-center">
+                    <h1 class="text-lg font-bold text-primary font-serif leading-tight">
+                        <span class="block">Danh sách 500 đại biểu Quốc hội</span>
+                        <span class="block">khóa XVI</span>
+                    </h1>
+                </div>
             </div>
         </div>
     </header>
@@ -208,31 +230,32 @@
     <main class="container mx-auto px-4 py-6 max-w-[1920px]">
         
         <!-- Filters Section -->
-        <div id="filterSection" class="sticky top-0 lg:top-14 z-30 bg-white py-4 mb-6 border-b border-gray-200 shadow-sm -mx-4 px-4 sm:mx-0 sm:px-0 transition-all duration-300">
-            <div class="flex items-center gap-2 mb-4">
-                <!-- Search -->
-                <div class="relative flex-1">
-                    <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên" 
-                        class="w-full px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary">
-                    <svg class="w-4 h-4 absolute right-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <div id="filterSection" class="sticky top-0 lg:top-16 z-30 bg-white py-4 mb-6 border-b border-gray-200 shadow-sm -mx-4 px-4 sm:mx-0 sm:px-0 transition-all duration-300">
+            <div class="flex flex-col lg:flex-row lg:items-center gap-4">
+                <!-- Search and Basic Controls Row -->
+                <div class="flex items-center gap-2 flex-1">
+                    <!-- Search -->
+                    <div class="relative flex-1 lg:max-w-xs">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary">
+                        <svg class="w-4 h-4 absolute right-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    
+                    <!-- Share Button (Mobile/Tablet) -->
+                    <button id="shareBtn" class="w-10 h-10 flex items-center justify-center border border-gray-300 rounded text-gray-500 hover:bg-gray-50 transition-colors lg:hidden">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+                    </button>
+
+                    <!-- Chart Button (Mobile only) -->
+                    <button id="chartScrollBtn" class="lg:hidden w-10 h-10 flex items-center justify-center bg-[#57A64A] text-white rounded hover:bg-opacity-90 transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>
+                    </button>
                 </div>
-                
-                <!-- Share Button -->
-                <button id="shareBtn" class="w-10 h-10 flex items-center justify-center border border-gray-300 rounded text-gray-500 hover:bg-gray-50 transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
-                </button>
 
-                <!-- Chart Button (Mobile only) -->
-                <button id="chartScrollBtn" class="lg:hidden w-10 h-10 flex items-center justify-center bg-[#57A64A] text-white rounded hover:bg-opacity-90 transition-colors">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>
-                </button>
-            </div>
-
-            <!-- Collapsible Filters Container -->
-            <div id="collapsibleFilters" class="hidden lg:block">
-                <div class="flex flex-wrap justify-center gap-3 mb-4">
+                <!-- Filters Row (Desktop: same row as search, Mobile: collapsible) -->
+                <div id="collapsibleFilters" class="hidden lg:flex flex-wrap items-center gap-3">
                     <!-- Filter: Quê quán (Searchable) -->
-                    <div class="searchable-dropdown w-full md:w-48">
+                    <div class="searchable-dropdown w-full lg:w-40">
                         <input type="text" id="provinceSearchInput" placeholder="Quê quán" 
                             class="w-full px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white">
                         <div id="provinceDropdown" class="dropdown-list modal-scroll">
@@ -241,7 +264,7 @@
                     </div>
 
                     <!-- Filter: Độ tuổi -->
-                    <select id="ageFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full md:w-32">
+                    <select id="ageFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full lg:w-28">
                         <option value="">Độ tuổi</option>
                         <option value="under35">Dưới 35</option>
                         <option value="35to45">35 - 45</option>
@@ -251,42 +274,51 @@
                     </select>
 
                     <!-- Filter: Giới tính -->
-                    <select id="genderFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full md:w-32">
+                    <select id="genderFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full lg:w-28">
                         <option value="">Giới tính</option>
                         <option value="Nam">Nam</option>
                         <option value="Nữ">Nữ</option>
                     </select>
 
                     <!-- Filter: Trình độ chuyên môn -->
-                    <select id="eduFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full md:w-48">
-                        <option value="">Trình độ chuyên môn</option>
-                        <option value="Cử nhân">Cử nhân</option>
+                    <select id="eduFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full lg:w-32">
+                        <option value="">Trình độ</option>
+                        <option value="Đại học">Đại học</option>
                         <option value="Thạc sĩ">Thạc sĩ</option>
                         <option value="Tiến sĩ">Tiến sĩ</option>
+                        <option value="Giáo sư">Giáo sư</option>
+                        <option value="Phó Giáo sư">Phó Giáo sư</option>
                     </select>
-                    
+
                     <!-- Filter: Nơi ứng cử -->
-                    <select id="workplaceFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full md:w-40">
+                    <select id="workplaceFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full lg:w-36">
                         <option value="">Nơi ứng cử</option>
                     </select>
 
                     <!-- Reset Button -->
-                    <button id="resetFiltersBtn" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded text-sm font-medium transition-colors flex items-center gap-2">
+                    <button id="resetFiltersBtn" class="px-4 py-2 bg-gray-100 text-gray-600 rounded text-sm hover:bg-gray-200 transition-colors flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                        Xoá bộ lọc
+                        Xoá
+                    </button>
+                    
+                    <!-- Desktop Share Button -->
+                    <button id="desktopShareBtn" class="w-10 h-10 flex items-center justify-center border border-gray-300 rounded text-gray-500 hover:bg-gray-50 transition-colors hidden lg:flex">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
                     </button>
                 </div>
             </div>
-            
-            <div class="flex flex-col items-center gap-2">
-                <div class="text-center text-sm text-gray-600">
-                    Tổng số <span id="resultCount" class="font-bold text-black text-base">0</span> người trúng cử
-                </div>
-                <!-- Toggle Button -->
-                <button id="toggleFiltersBtn" class="text-sm text-gray-500 flex items-center gap-1 hover:text-primary transition-colors">
-                    <span id="toggleText">Mở rộng</span>
+
+            <!-- Mobile Toggle Filters Button -->
+            <div class="lg:hidden mt-4 flex justify-center">
+                <button id="toggleFiltersBtn" class="flex items-center gap-2 text-primary font-medium text-sm">
+                    <span id="toggleText">Mở rộng bộ lọc</span>
                     <svg id="toggleIcon" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
+            </div>
+
+            <!-- Result Count -->
+            <div class="mt-4 text-center text-sm text-gray-600">
+                Tổng số <span id="resultCount" class="font-bold text-black text-base">0</span> người trúng cử
             </div>
         </div>
 
@@ -497,6 +529,7 @@
         const resetFiltersBtn = document.getElementById('resetFiltersBtn');
         const shareBtn = document.getElementById('shareBtn');
         const headerShareBtn = document.getElementById('headerShareBtn');
+        const desktopShareBtn = document.getElementById('desktopShareBtn');
         const chartScrollBtn = document.getElementById('chartScrollBtn');
         const toggleFiltersBtn = document.getElementById('toggleFiltersBtn');
         const collapsibleFilters = document.getElementById('collapsibleFilters');
@@ -895,7 +928,7 @@
             if (window.innerWidth >= 1024) {
                 // Desktop behavior: keep as is or adjust if needed
                 mainHeader.classList.remove('-translate-y-full');
-                filterSection.style.top = ''; // Reset to CSS default (top-14)
+                filterSection.style.top = ''; // Reset to CSS default (top-16)
                 return;
             }
 
@@ -943,6 +976,7 @@
 
         shareBtn.addEventListener('click', handleShare);
         if (headerShareBtn) headerShareBtn.addEventListener('click', handleShare);
+        if (desktopShareBtn) desktopShareBtn.addEventListener('click', handleShare);
 
         // Modal Logic
         function openModal(delegate) {
