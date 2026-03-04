@@ -744,7 +744,7 @@
             
             data.forEach((delegate, index) => {
                 const card = document.createElement('div');
-                card.className = 'delegate-card group cursor-pointer flex flex-col hover:shadow-md transition-shadow duration-300 bg-white';
+                card.className = 'delegate-card group cursor-pointer flex flex-col p-3 border border-gray-100 rounded-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 bg-white relative z-0 hover:z-10';
                 card.onclick = () => openModal(delegate);
                 
                 const name = delegate['Họ và tên'] || 'Chưa cập nhật';
@@ -754,7 +754,7 @@
                 
                 let imgHtml = '';
                 if (delegate['Ảnh']) {
-                    imgHtml = `<img src="${delegate['Ảnh']}" alt="${name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300">`;
+                    imgHtml = `<img src="${delegate['Ảnh']}" alt="${name}" class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-500 ease-out">`;
                 } else {
                     const isFemale = gender === 'Nữ';
                     const bgColor = getAgeColor(delegate._age);
@@ -766,7 +766,7 @@
                     const initial = nameParts.length > 0 ? nameParts[nameParts.length - 1].charAt(0).toUpperCase() : '';
 
                     imgHtml = `
-                        <div class="w-full h-full flex items-center justify-center relative overflow-hidden group-hover:scale-105 transition-transform duration-300" style="background-color: ${bgColor}">
+                        <div class="w-full h-full flex items-center justify-center relative overflow-hidden group-hover:scale-110 transition-transform duration-500 ease-out" style="background-color: ${bgColor}">
                             ${iconSvg}
                             <div class="absolute inset-0 flex items-center justify-center p-2 bg-white/10 backdrop-blur-[0.5px]">
                                 <span class="text-gray-600/40 font-bold text-6xl uppercase select-none drop-shadow-sm">${initial}</span>
@@ -776,12 +776,12 @@
                 }
                 
                 card.innerHTML = `
-                    <div class="image-container aspect-[3/4] overflow-hidden bg-gray-100 mb-3 border border-gray-200 relative">
+                    <div class="image-container aspect-[3/4] overflow-hidden bg-gray-100 mb-4 border border-gray-100 relative rounded-sm">
                         ${imgHtml}
                     </div>
-                    <div class="info-container flex flex-col">
-                        <h3 class="font-bold text-[15px] text-gray-900 leading-tight mb-1 group-hover:text-primary transition-colors">${name}</h3>
-                        <p class="text-[13px] text-gray-600 line-clamp-3 leading-snug">${position}</p>
+                    <div class="info-container flex flex-col px-1">
+                        <h3 class="font-bold text-[15px] text-gray-900 leading-tight mb-2 group-hover:text-primary transition-colors line-clamp-2">${name}</h3>
+                        <p class="text-[12px] text-gray-500 line-clamp-3 leading-relaxed">${position}</p>
                     </div>
                 `;
                 
