@@ -167,16 +167,16 @@
 <body class="antialiased">
 
     <!-- Header -->
-    <header class="border-b border-gray-200 bg-white sticky top-0 z-40 h-14 flex items-center">
-        <div class="container mx-auto px-4 max-w-[1920px] flex items-center justify-between w-full">
+    <header class="border-b border-gray-200 bg-white sticky top-0 z-40 min-h-[3.5rem] py-2 flex items-center">
+        <div class="container mx-auto px-4 max-w-[1920px] flex flex-wrap items-center justify-between w-full gap-y-2">
             <div class="flex items-center gap-4">
                 <button class="text-gray-500 hover:text-primary">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
                 <img src="https://s1.vnecdn.net/vnexpress/restruct/i/v863/v2_2019/pc/graphics/logo.svg" alt="VnExpress" class="h-6">
             </div>
-            <div class="flex items-center gap-2">
-                <h1 class="text-lg md:text-xl font-bold text-primary font-serif">Danh sách 500 đại biểu Quốc hội khóa XVI</h1>
+            <div class="flex-1 min-w-[200px] text-center px-2">
+                <h1 class="text-lg md:text-xl font-bold text-primary font-serif leading-tight">Danh sách 500 đại biểu Quốc hội khóa XVI</h1>
             </div>
             <div class="flex items-center gap-2">
                 <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200">f</button>
@@ -272,39 +272,49 @@
         </div>
 
         <div class="flex flex-col lg:flex-row gap-8">
-            <!-- Sidebar Charts -->
-            <aside id="sidebarCharts" class="w-full lg:w-[350px] flex-shrink-0 lg:border-r lg:border-gray-200 lg:pr-6 sticky top-40 self-start max-h-[calc(100vh-10rem)] overflow-y-auto modal-scroll pb-4">
+            <!-- Sidebar Charts Modal for Mobile / Sidebar for Desktop -->
+            <div id="chartModal" class="fixed inset-0 z-50 hidden lg:hidden">
+                <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" id="closeChartModalOverlay"></div>
+                <div class="absolute inset-x-0 bottom-0 bg-white rounded-t-2xl max-h-[90vh] overflow-y-auto p-6 modal-scroll">
+                    <div class="flex justify-between items-center mb-6 border-b pb-4">
+                        <h2 class="text-xl font-bold text-primary font-serif">Cơ cấu ứng cử viên</h2>
+                        <button id="closeChartModalBtn" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
+                    <div id="mobileChartContent"></div>
+                </div>
+            </div>
+
+            <!-- Sidebar Charts (Desktop only) -->
+            <aside id="sidebarCharts" class="hidden lg:block w-full lg:w-[350px] flex-shrink-0 lg:border-r lg:border-gray-200 lg:pr-6 sticky top-40 self-start max-h-[calc(100vh-10rem)] overflow-y-auto modal-scroll pb-4">
                 <div class="sidebar-title">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>
                     Cơ cấu ứng cử viên
                 </div>
-
-                <!-- Age Chart -->
-                <div class="mb-8">
-                    <h3 class="font-bold text-gray-800 mb-4">Độ tuổi</h3>
-                    <div id="ageChartContainer" class="flex flex-col gap-2 relative">
-                        <!-- X-axis labels will be added here -->
+                <div id="desktopChartContent">
+                    <!-- Age Chart -->
+                    <div class="mb-8">
+                        <h3 class="font-bold text-gray-800 mb-4">Độ tuổi</h3>
+                        <div id="ageChartContainer" class="flex flex-col gap-2 relative"></div>
                     </div>
-                </div>
 
-                <!-- Education Chart -->
-                <div class="mb-8">
-                    <h3 class="font-bold text-gray-800 mb-4">Trình độ chuyên môn</h3>
-                    <div id="eduChartContainer" class="flex flex-col gap-2 relative">
+                    <!-- Education Chart -->
+                    <div class="mb-8">
+                        <h3 class="font-bold text-gray-800 mb-4">Trình độ chuyên môn</h3>
+                        <div id="eduChartContainer" class="flex flex-col gap-2 relative"></div>
                     </div>
-                </div>
 
-                <!-- Gender Chart -->
-                <div class="mb-8">
-                    <h3 class="font-bold text-gray-800 mb-4">Giới tính</h3>
-                    <div id="genderChartContainer" class="flex flex-col gap-2 relative">
+                    <!-- Gender Chart -->
+                    <div class="mb-8">
+                        <h3 class="font-bold text-gray-800 mb-4">Giới tính</h3>
+                        <div id="genderChartContainer" class="flex flex-col gap-2 relative"></div>
                     </div>
-                </div>
 
-                <!-- Hometown Chart -->
-                <div class="mb-8">
-                    <h3 class="font-bold text-gray-800 mb-4">Quê quán</h3>
-                    <div id="hometownChartContainer" class="flex flex-col gap-2 relative">
+                    <!-- Hometown Chart -->
+                    <div class="mb-8">
+                        <h3 class="font-bold text-gray-800 mb-4">Quê quán</h3>
+                        <div id="hometownChartContainer" class="flex flex-col gap-2 relative"></div>
                     </div>
                 </div>
             </aside>
@@ -318,7 +328,7 @@
                 </div>
 
                 <!-- Grid -->
-                <div id="delegatesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-4 gap-y-8 hidden">
+                <div id="delegatesGrid" class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-4 gap-y-4 sm:gap-y-8 hidden">
                     <!-- Cards will be injected here -->
                 </div>
 
@@ -466,6 +476,11 @@
         const toggleText = document.getElementById('toggleText');
         const toggleIcon = document.getElementById('toggleIcon');
         const sidebarCharts = document.getElementById('sidebarCharts');
+        const chartModal = document.getElementById('chartModal');
+        const closeChartModalBtn = document.getElementById('closeChartModalBtn');
+        const closeChartModalOverlay = document.getElementById('closeChartModalOverlay');
+        const mobileChartContent = document.getElementById('mobileChartContent');
+        const desktopChartContent = document.getElementById('desktopChartContent');
 
         let allProvinces = [];
 
@@ -823,10 +838,27 @@
             }
         });
 
-        // Scroll to Charts
+        // Scroll to Charts / Open Chart Modal
         chartScrollBtn.addEventListener('click', () => {
-            sidebarCharts.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (window.innerWidth < 1024) {
+                // Move chart containers to mobile modal
+                mobileChartContent.appendChild(desktopChartContent);
+                chartModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                sidebarCharts.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         });
+
+        function closeChartModal() {
+            chartModal.classList.add('hidden');
+            document.body.style.overflow = '';
+            // Move chart containers back to desktop sidebar
+            sidebarCharts.appendChild(desktopChartContent);
+        }
+
+        closeChartModalBtn.addEventListener('click', closeChartModal);
+        closeChartModalOverlay.addEventListener('click', closeChartModal);
 
         // Share
         shareBtn.addEventListener('click', async () => {
