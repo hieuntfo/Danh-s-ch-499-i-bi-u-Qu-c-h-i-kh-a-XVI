@@ -75,6 +75,32 @@
             background-size: 1em;
             padding-right: 2rem;
         }
+        .searchable-dropdown {
+            position: relative;
+        }
+        .dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 50;
+            display: none;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .dropdown-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .dropdown-item:hover {
+            background-color: #f3f4f6;
+            color: #9F224E;
+        }
         .chart-bar {
             height: 12px;
             background-color: #fca5a5; /* light red */
@@ -142,10 +168,14 @@
                     <svg class="w-4 h-4 absolute right-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
                 
-                <!-- Filter: Quê quán -->
-                <select id="provinceFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full md:w-40">
-                    <option value="">Quê quán</option>
-                </select>
+                <!-- Filter: Quê quán (Searchable) -->
+                <div class="searchable-dropdown w-full md:w-48">
+                    <input type="text" id="provinceSearchInput" placeholder="Quê quán" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white">
+                    <div id="provinceDropdown" class="dropdown-list modal-scroll">
+                        <!-- Options will be injected here -->
+                    </div>
+                </div>
 
                 <!-- Filter: Độ tuổi -->
                 <select id="ageFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full md:w-32">
@@ -176,6 +206,12 @@
                 <select id="workplaceFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full md:w-40">
                     <option value="">Nơi ứng cử</option>
                 </select>
+
+                <!-- Reset Button -->
+                <button id="resetFiltersBtn" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded text-sm font-medium transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    Xoá bộ lọc
+                </button>
             </div>
             
             <div class="text-center text-sm text-gray-600">
@@ -364,11 +400,15 @@
         
         // Filters
         const searchInput = document.getElementById('searchInput');
-        const provinceFilter = document.getElementById('provinceFilter');
+        const provinceSearchInput = document.getElementById('provinceSearchInput');
+        const provinceDropdown = document.getElementById('provinceDropdown');
         const genderFilter = document.getElementById('genderFilter');
         const ageFilter = document.getElementById('ageFilter');
         const eduFilter = document.getElementById('eduFilter');
         const workplaceFilter = document.getElementById('workplaceFilter');
+        const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+
+        let allProvinces = [];
 
         // Modal
         const modal = document.getElementById('detailModal');
@@ -458,12 +498,8 @@
                 }
             });
             
-            Array.from(provinces).sort().forEach(p => {
-                const option = document.createElement('option');
-                option.value = p;
-                option.textContent = p;
-                provinceFilter.appendChild(option);
-            });
+            allProvinces = Array.from(provinces).sort();
+            renderProvinceDropdown(allProvinces);
 
             Array.from(workplaces).sort().forEach(p => {
                 const option = document.createElement('option');
@@ -472,6 +508,45 @@
                 workplaceFilter.appendChild(option);
             });
         }
+
+        function renderProvinceDropdown(list) {
+            provinceDropdown.innerHTML = '';
+            if (list.length === 0) {
+                provinceDropdown.style.display = 'none';
+                return;
+            }
+            
+            list.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'dropdown-item';
+                item.textContent = p;
+                item.onclick = () => {
+                    provinceSearchInput.value = p;
+                    provinceDropdown.style.display = 'none';
+                    applyFilters();
+                };
+                provinceDropdown.appendChild(item);
+            });
+        }
+
+        provinceSearchInput.addEventListener('focus', () => {
+            renderProvinceDropdown(allProvinces);
+            provinceDropdown.style.display = 'block';
+        });
+
+        provinceSearchInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            const filtered = allProvinces.filter(p => p.toLowerCase().includes(val));
+            renderProvinceDropdown(filtered);
+            provinceDropdown.style.display = 'block';
+            applyFilters();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.searchable-dropdown')) {
+                provinceDropdown.style.display = 'none';
+            }
+        });
 
         // Render Grid
         function renderGrid(data) {
@@ -615,7 +690,7 @@
         // Filtering Logic
         function applyFilters() {
             const searchTerm = searchInput.value.toLowerCase().trim();
-            const province = provinceFilter.value;
+            const province = provinceSearchInput.value.trim();
             const gender = genderFilter.value;
             const ageGroup = ageFilter.value;
             const edu = eduFilter.value;
@@ -626,7 +701,7 @@
                 const matchSearch = !searchTerm || (d['Họ và tên'] && d['Họ và tên'].toLowerCase().includes(searchTerm));
                 
                 // Province (Quê quán)
-                const matchProvince = !province || (d['Quê quán'] && d['Quê quán'].includes(province));
+                const matchProvince = !province || (d['Quê quán'] && d['Quê quán'].toLowerCase().includes(province.toLowerCase()));
                 
                 // Workplace (Nơi ứng cử / Đoàn ĐBQH)
                 const matchWorkplace = !workplace || d['Quê'] === workplace;
@@ -658,11 +733,20 @@
 
         // Event Listeners for Filters
         searchInput.addEventListener('input', applyFilters);
-        provinceFilter.addEventListener('change', applyFilters);
         genderFilter.addEventListener('change', applyFilters);
         ageFilter.addEventListener('change', applyFilters);
         eduFilter.addEventListener('change', applyFilters);
         workplaceFilter.addEventListener('change', applyFilters);
+
+        resetFiltersBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            provinceSearchInput.value = '';
+            genderFilter.value = '';
+            ageFilter.value = '';
+            eduFilter.value = '';
+            workplaceFilter.value = '';
+            applyFilters();
+        });
 
         // Modal Logic
         function openModal(delegate) {
