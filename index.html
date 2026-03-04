@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách Đại biểu Quốc hội Khóa 16 - VnExpress</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Arial:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9F224E',
+                        accent: '#B13460',
+                        bg: '#FFFFFF',
+                        textMain: '#4F4F4F',
+                        heading: '#000000',
+                        barBg: '#FCA5A5',
+                        barFill: '#F87171'
+                    },
+                    fontFamily: {
+                        serif: ['Merriweather', 'serif'],
+                        sans: ['Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FFFFFF;
+            color: #4F4F4F;
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+        }
+        h1, h2, h3, .name-heading {
+            font-family: 'Arial', sans-serif;
+            color: #000000;
+        }
+        /* Custom Scrollbar for Modal */
+        .modal-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .modal-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        .modal-scroll::-webkit-scrollbar-thumb {
+            background: #ccc; 
+            border-radius: 4px;
+        }
+        .modal-scroll::-webkit-scrollbar-thumb:hover {
+            background: #9F224E; 
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #9F224E;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .filter-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1em;
+            padding-right: 2rem;
+        }
+        .chart-bar {
+            height: 12px;
+            background-color: #fca5a5; /* light red */
+            transition: width 0.5s ease-out;
+        }
+        .chart-label {
+            width: 60px;
+            text-align: right;
+            padding-right: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+        .chart-value {
+            font-size: 12px;
+            color: #666;
+            padding-left: 4px;
+        }
+        .sidebar-title {
+            color: #9F224E;
+            font-weight: bold;
+            font-size: 16px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="border-b border-gray-200 bg-white sticky top-0 z-40 h-14 flex items-center">
+        <div class="container mx-auto px-4 max-w-7xl flex items-center justify-between w-full">
+            <div class="flex items-center gap-4">
+                <button class="text-gray-500 hover:text-primary">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                <img src="https://s1.vnecdn.net/vnexpress/restruct/i/v863/v2_2019/pc/graphics/logo.svg" alt="VnExpress" class="h-6">
+            </div>
+            <div class="flex items-center gap-2">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Emblem_of_Vietnam.svg/250px-Emblem_of_Vietnam.svg.png" alt="Quốc huy Việt Nam" class="w-9 h-9 object-contain">
+                <h1 class="text-lg md:text-xl font-bold text-primary font-serif">Danh sách đại biểu Quốc hội khóa XVI</h1>
+            </div>
+            <div class="flex items-center gap-2">
+                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200">f</button>
+                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200">X</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6 max-w-7xl">
+        
+        <!-- Filters Section -->
+        <div class="sticky top-14 z-30 bg-white py-4 mb-6 border-b border-gray-200 shadow-sm -mx-4 px-4 sm:mx-0 sm:px-0">
+            <div class="flex flex-wrap justify-center gap-3 mb-4">
+                <!-- Search -->
+                <div class="relative w-full md:w-64">
+                    <input type="text" id="searchInput" placeholder="Họ tên" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary">
+                    <svg class="w-4 h-4 absolute right-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                
+                <!-- Filter: Quê quán -->
+                <select id="provinceFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full md:w-40">
+                    <option value="">Quê quán</option>
+                </select>
+
+                <!-- Filter: Độ tuổi -->
+                <select id="ageFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full md:w-32">
+                    <option value="">Độ tuổi</option>
+                    <option value="under35">Dưới 35</option>
+                    <option value="35to45">35 - 45</option>
+                    <option value="45to55">45 - 55</option>
+                    <option value="55to65">55 - 65</option>
+                    <option value="over65">65+</option>
+                </select>
+
+                <!-- Filter: Giới tính -->
+                <select id="genderFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full md:w-32">
+                    <option value="">Giới tính</option>
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                </select>
+
+                <!-- Filter: Trình độ chuyên môn -->
+                <select id="eduFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full md:w-48">
+                    <option value="">Trình độ chuyên môn</option>
+                    <option value="Cử nhân">Cử nhân</option>
+                    <option value="Thạc sĩ">Thạc sĩ</option>
+                    <option value="Tiến sĩ">Tiến sĩ</option>
+                </select>
+                
+                <!-- Filter: Nơi ứng cử -->
+                <select id="workplaceFilter" class="filter-select px-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-primary bg-white w-full md:w-40">
+                    <option value="">Nơi ứng cử</option>
+                </select>
+            </div>
+            
+            <div class="text-center text-sm text-gray-600">
+                Tổng số <span id="resultCount" class="font-bold text-black text-base">0</span> người trúng cử
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Sidebar Charts -->
+            <aside class="w-full md:w-64 flex-shrink-0 border-r border-gray-200 pr-6 hidden md:block sticky top-40 self-start max-h-[calc(100vh-10rem)] overflow-y-auto modal-scroll pb-4">
+                <div class="sidebar-title">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>
+                    Cơ cấu ứng cử viên
+                </div>
+
+                <!-- Age Chart -->
+                <div class="mb-8">
+                    <h3 class="font-bold text-gray-800 mb-4">Độ tuổi</h3>
+                    <div id="ageChartContainer" class="flex flex-col gap-2 relative">
+                        <!-- X-axis labels will be added here -->
+                    </div>
+                </div>
+
+                <!-- Education Chart -->
+                <div class="mb-8">
+                    <h3 class="font-bold text-gray-800 mb-4">Trình độ chuyên môn</h3>
+                    <div id="eduChartContainer" class="flex flex-col gap-2 relative">
+                    </div>
+                </div>
+
+                <!-- Gender Chart -->
+                <div class="mb-8">
+                    <h3 class="font-bold text-gray-800 mb-4">Giới tính</h3>
+                    <div id="genderChartContainer" class="flex flex-col gap-2 relative">
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Grid -->
+            <div class="flex-1">
+                <!-- Loading State -->
+                <div id="loadingState" class="py-12 flex flex-col items-center justify-center">
+                    <div class="loader mb-4"></div>
+                    <p class="text-gray-500">Đang tải dữ liệu...</p>
+                </div>
+
+                <!-- Grid -->
+                <div id="delegatesGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-4 gap-y-8 hidden">
+                    <!-- Cards will be injected here -->
+                </div>
+
+                <!-- No Results -->
+                <div id="noResults" class="hidden py-12 text-center">
+                    <p class="text-gray-500 text-lg">Không tìm thấy đại biểu nào phù hợp.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal -->
+    <div id="detailModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col transform scale-95 transition-transform duration-300" id="modalContent">
+            
+            <!-- Modal Header -->
+            <div class="flex items-start justify-between p-6 border-b border-gray-200">
+                <div class="flex gap-4 items-center">
+                    <div id="modalAvatarContainer"></div>
+                    <div>
+                        <h2 id="modalName" class="text-2xl font-bold name-heading mb-1">Tên Đại Biểu</h2>
+                        <p id="modalPosition" class="text-sm text-gray-600 font-medium">Chức vụ</p>
+                    </div>
+                </div>
+                <button id="closeModalBtn" class="text-gray-400 hover:text-gray-700 p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 overflow-y-auto modal-scroll flex-1">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+                    
+                    <div class="col-span-1 md:col-span-2 mb-2">
+                        <h3 class="text-lg font-bold border-b border-gray-200 pb-2 mb-3 text-heading">Thông tin cơ bản</h3>
+                    </div>
+
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase mb-1">Ngày sinh</p>
+                        <p id="modalDob" class="font-medium text-gray-800">-</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase mb-1">Giới tính</p>
+                        <p id="modalGender" class="font-medium text-gray-800">-</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase mb-1">Dân tộc / Tôn giáo</p>
+                        <p id="modalEthnicity" class="font-medium text-gray-800">-</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase mb-1">Quê quán</p>
+                        <p id="modalHometown" class="font-medium text-gray-800">-</p>
+                    </div>
+                    
+                    <div class="col-span-1 md:col-span-2 mt-4 mb-2">
+                        <h3 class="text-lg font-bold border-b border-gray-200 pb-2 mb-3 text-heading">Trình độ & Chuyên môn</h3>
+                    </div>
+
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase mb-1">Giáo dục phổ thông</p>
+                        <p id="modalEdu" class="font-medium text-gray-800">-</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase mb-1">Học hàm, học vị</p>
+                        <p id="modalDegree" class="font-medium text-gray-800">-</p>
+                    </div>
+                    <div class="col-span-1 md:col-span-2">
+                        <p class="text-xs text-gray-500 uppercase mb-1">Chuyên môn, nghiệp vụ</p>
+                        <p id="modalMajor" class="font-medium text-gray-800">-</p>
+                    </div>
+                    <div class="col-span-1 md:col-span-2">
+                        <p class="text-xs text-gray-500 uppercase mb-1">Lý luận chính trị</p>
+                        <p id="modalPolitical" class="font-medium text-gray-800">-</p>
+                    </div>
+
+                    <div class="col-span-1 md:col-span-2 mt-4 mb-2">
+                        <h3 class="text-lg font-bold border-b border-gray-200 pb-2 mb-3 text-heading">Công tác & Chức vụ</h3>
+                    </div>
+
+                    <div class="col-span-1 md:col-span-2">
+                        <p class="text-xs text-gray-500 uppercase mb-1">Nơi công tác</p>
+                        <p id="modalWorkplace" class="font-medium text-gray-800">-</p>
+                    </div>
+                    <div class="col-span-1 md:col-span-2">
+                        <p class="text-xs text-gray-500 uppercase mb-1">Đoàn ĐBQH</p>
+                        <p id="modalProvince" class="font-medium text-gray-800">-</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase mb-1">Ngày vào Đảng</p>
+                        <p id="modalPartyDate" class="font-medium text-gray-800">-</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase mb-1">Đại biểu QH các khóa</p>
+                        <p id="modalNA" class="font-medium text-gray-800">-</p>
+                    </div>
+
+                </div>
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="p-4 border-t border-gray-200 bg-gray-50 rounded-b flex justify-end">
+                <button id="closeModalBtnFooter" class="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded text-sm font-medium transition-colors">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const DATA_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRnT0PFHwHbMbGLk2iWNdWpWKNHs4gepOVoCJFrd4h5p3GTnfiF-jZ-TGiydvBrUkEWwFlcFhGGKYU-/pub?output=tsv';
+        const DEFAULT_AVATAR = 'https://s1.vnecdn.net/vnexpress/restruct/i/v863/v2_2019/pc/graphics/anonymous.svg';
+        
+        let delegatesData = [];
+        let filteredData = [];
+
+        // DOM Elements
+        const grid = document.getElementById('delegatesGrid');
+        const loadingState = document.getElementById('loadingState');
+        const noResults = document.getElementById('noResults');
+        const resultCount = document.getElementById('resultCount');
+        
+        // Filters
+        const searchInput = document.getElementById('searchInput');
+        const provinceFilter = document.getElementById('provinceFilter');
+        const genderFilter = document.getElementById('genderFilter');
+        const ageFilter = document.getElementById('ageFilter');
+        const eduFilter = document.getElementById('eduFilter');
+        const workplaceFilter = document.getElementById('workplaceFilter');
+
+        // Modal
+        const modal = document.getElementById('detailModal');
+        const modalContent = document.getElementById('modalContent');
+        const closeBtns = [document.getElementById('closeModalBtn'), document.getElementById('closeModalBtnFooter')];
+
+        // Initialize
+        async function init() {
+            try {
+                const response = await fetch(DATA_URL);
+                const tsvText = await response.text();
+                parseTSV(tsvText);
+                populateFilters();
+                applyFilters(); // Initial render and chart update
+                
+                loadingState.classList.add('hidden');
+                grid.classList.remove('hidden');
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                loadingState.innerHTML = '<p class="text-red-500">Có lỗi xảy ra khi tải dữ liệu. Vui lòng thử lại sau.</p>';
+            }
+        }
+
+        // Parse TSV
+        function parseTSV(tsv) {
+            const lines = tsv.split('\n');
+            const headers = lines[0].split('\t').map(h => h.trim());
+            
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                
+                const values = lines[i].split('\t');
+                const delegate = {};
+                
+                headers.forEach((header, index) => {
+                    delegate[header] = values[index] ? values[index].trim() : '';
+                });
+                
+                // Calculate age
+                delegate._age = calculateAge(delegate['Ngày tháng năm sinh']);
+                
+                // Determine Education Level for filtering
+                let eduLevel = 'Khác';
+                const degree = (delegate['Học hàm, học vị'] || '').toLowerCase();
+                if (degree.includes('tiến sĩ')) eduLevel = 'Tiến sĩ';
+                else if (degree.includes('thạc sĩ')) eduLevel = 'Thạc sĩ';
+                else if (degree.includes('cử nhân') || degree.includes('đại học')) eduLevel = 'Cử nhân';
+                else if (degree.includes('kỹ sư')) eduLevel = 'Kỹ sư';
+                else if (degree.includes('bác sĩ')) eduLevel = 'Bác sĩ';
+                delegate._eduLevel = eduLevel;
+
+                delegatesData.push(delegate);
+            }
+            filteredData = [...delegatesData];
+        }
+
+        // Calculate Age from DD/MM/YYYY or YYYY
+        function calculateAge(dobString) {
+            if (!dobString || dobString === 'Không') return null;
+            
+            let year;
+            if (dobString.includes('/')) {
+                const parts = dobString.split('/');
+                year = parseInt(parts[parts.length - 1]);
+            } else {
+                year = parseInt(dobString);
+            }
+            
+            if (isNaN(year)) return null;
+            
+            const currentYear = new Date().getFullYear(); // Or 2021 if it's for Khóa 15
+            return currentYear - year;
+        }
+
+        // Populate Dropdowns
+        function populateFilters() {
+            const provinces = new Set();
+            const workplaces = new Set();
+            
+            delegatesData.forEach(d => {
+                if (d['Quê quán'] && d['Quê quán'] !== 'Không') {
+                    // Extract province from hometown string (usually the last part)
+                    const parts = d['Quê quán'].split(',');
+                    provinces.add(parts[parts.length - 1].trim());
+                }
+                if (d['Quê'] && d['Quê'] !== 'Không') {
+                    workplaces.add(d['Quê']);
+                }
+            });
+            
+            Array.from(provinces).sort().forEach(p => {
+                const option = document.createElement('option');
+                option.value = p;
+                option.textContent = p;
+                provinceFilter.appendChild(option);
+            });
+
+            Array.from(workplaces).sort().forEach(p => {
+                const option = document.createElement('option');
+                option.value = p;
+                option.textContent = p;
+                workplaceFilter.appendChild(option);
+            });
+        }
+
+        // Render Grid
+        function renderGrid(data) {
+            grid.innerHTML = '';
+            resultCount.textContent = data.length;
+            
+            if (data.length === 0) {
+                grid.classList.add('hidden');
+                noResults.classList.remove('hidden');
+                return;
+            }
+            
+            grid.classList.remove('hidden');
+            noResults.classList.add('hidden');
+            
+            data.forEach((delegate, index) => {
+                const card = document.createElement('div');
+                card.className = 'group cursor-pointer flex flex-col';
+                card.onclick = () => openModal(delegate);
+                
+                const name = delegate['Họ và tên'] || 'Chưa cập nhật';
+                const position = delegate['Nghề nghiệp, chức vụ'] || 'Đại biểu Quốc hội';
+                const province = delegate['Quê'] !== 'Không' ? delegate['Quê'] : 'Trung ương';
+                const gender = delegate['Giới tính'];
+                
+                let imgHtml = '';
+                if (delegate['Ảnh']) {
+                    imgHtml = `<img src="${delegate['Ảnh']}" alt="${name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300">`;
+                } else {
+                    const isFemale = gender === 'Nữ';
+                    const iconSvg = isFemale 
+                        ? `<svg class="w-24 h-24 text-pink-200 absolute" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`
+                        : `<svg class="w-24 h-24 text-blue-200 absolute" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
+                    
+                    const nameParts = name.split(' ');
+                    const initial = nameParts.length > 0 ? nameParts[nameParts.length - 1].charAt(0).toUpperCase() : '';
+
+                    imgHtml = `
+                        <div class="w-full h-full bg-gray-50 flex items-center justify-center relative overflow-hidden group-hover:scale-105 transition-transform duration-300">
+                            ${iconSvg}
+                            <div class="absolute inset-0 flex items-center justify-center p-2 bg-white/20 backdrop-blur-[1px]">
+                                <span class="text-gray-600/50 font-bold text-6xl uppercase select-none drop-shadow-sm">${initial}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                card.innerHTML = `
+                    <div class="aspect-[3/4] overflow-hidden bg-gray-100 mb-3 border border-gray-200 relative">
+                        ${imgHtml}
+                    </div>
+                    <h3 class="font-bold text-[15px] text-gray-900 leading-tight mb-1 group-hover:text-primary transition-colors">${name}</h3>
+                    <p class="text-[13px] text-gray-600 line-clamp-3 leading-snug">${position}</p>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Render Charts
+        function renderCharts(data) {
+            // Age Stats
+            const ageStats = { 'Dưới 25': 0, '25 - 35': 0, '35 - 45': 0, '45 - 55': 0, '55 - 65': 0, '65+': 0 };
+            // Edu Stats
+            const eduStats = { 'Cử nhân': 0, 'Tiến sĩ': 0, 'Thạc sĩ': 0, 'Kỹ sư': 0, 'Bác sĩ': 0 };
+            // Gender Stats
+            const genderStats = { 'Nữ': 0, 'Nam': 0 };
+
+            data.forEach(d => {
+                // Age
+                if (d._age) {
+                    if (d._age < 25) ageStats['Dưới 25']++;
+                    else if (d._age <= 35) ageStats['25 - 35']++;
+                    else if (d._age <= 45) ageStats['35 - 45']++;
+                    else if (d._age <= 55) ageStats['45 - 55']++;
+                    else if (d._age <= 65) ageStats['55 - 65']++;
+                    else ageStats['65+']++;
+                }
+                
+                // Edu
+                if (eduStats[d._eduLevel] !== undefined) {
+                    eduStats[d._eduLevel]++;
+                }
+
+                // Gender
+                if (d['Giới tính'] === 'Nam') genderStats['Nam']++;
+                if (d['Giới tính'] === 'Nữ') genderStats['Nữ']++;
+            });
+
+            drawChart('ageChartContainer', ageStats);
+            drawChart('eduChartContainer', eduStats);
+            drawChart('genderChartContainer', genderStats);
+        }
+
+        function drawChart(containerId, stats) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            const maxVal = Math.max(...Object.values(stats), 1); // Avoid division by zero
+            
+            // Add X-axis scale at the bottom
+            const xAxis = document.createElement('div');
+            xAxis.className = 'flex justify-between text-[10px] text-gray-400 mt-2 ml-[60px] border-t border-gray-200 pt-1';
+            xAxis.innerHTML = `<span>0</span><span>${Math.round(maxVal/2)}</span><span>${maxVal}</span>`;
+
+            Object.entries(stats).forEach(([label, value]) => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center';
+                
+                const widthPercent = (value / maxVal) * 100;
+                
+                row.innerHTML = `
+                    <div class="chart-label">${label}</div>
+                    <div class="flex-1 flex items-center">
+                        <div class="chart-bar" style="width: ${widthPercent}%"></div>
+                        <span class="chart-value">${value}</span>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+            
+            container.appendChild(xAxis);
+        }
+
+        // Filtering Logic
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const province = provinceFilter.value;
+            const gender = genderFilter.value;
+            const ageGroup = ageFilter.value;
+            const edu = eduFilter.value;
+            const workplace = workplaceFilter.value;
+            
+            filteredData = delegatesData.filter(d => {
+                // Search
+                const matchSearch = !searchTerm || (d['Họ và tên'] && d['Họ và tên'].toLowerCase().includes(searchTerm));
+                
+                // Province (Quê quán)
+                const matchProvince = !province || (d['Quê quán'] && d['Quê quán'].includes(province));
+                
+                // Workplace (Nơi ứng cử / Đoàn ĐBQH)
+                const matchWorkplace = !workplace || d['Quê'] === workplace;
+
+                // Gender
+                const matchGender = !gender || d['Giới tính'] === gender;
+                
+                // Education
+                const matchEdu = !edu || d._eduLevel === edu;
+
+                // Age
+                let matchAge = true;
+                if (ageGroup && d._age) {
+                    if (ageGroup === 'under35') matchAge = d._age < 35;
+                    else if (ageGroup === '35to45') matchAge = d._age >= 35 && d._age <= 45;
+                    else if (ageGroup === '45to55') matchAge = d._age > 45 && d._age <= 55;
+                    else if (ageGroup === '55to65') matchAge = d._age > 55 && d._age <= 65;
+                    else if (ageGroup === 'over65') matchAge = d._age > 65;
+                } else if (ageGroup && !d._age) {
+                    matchAge = false; 
+                }
+                
+                return matchSearch && matchProvince && matchGender && matchAge && matchEdu && matchWorkplace;
+            });
+            
+            renderGrid(filteredData);
+            renderCharts(filteredData);
+        }
+
+        // Event Listeners for Filters
+        searchInput.addEventListener('input', applyFilters);
+        provinceFilter.addEventListener('change', applyFilters);
+        genderFilter.addEventListener('change', applyFilters);
+        ageFilter.addEventListener('change', applyFilters);
+        eduFilter.addEventListener('change', applyFilters);
+        workplaceFilter.addEventListener('change', applyFilters);
+
+        // Modal Logic
+        function openModal(delegate) {
+            const modalAvatarContainer = document.getElementById('modalAvatarContainer');
+            const name = delegate['Họ và tên'];
+            const gender = delegate['Giới tính'];
+            
+            if (delegate['Ảnh']) {
+                modalAvatarContainer.innerHTML = `<img src="${delegate['Ảnh']}" alt="${name}" class="w-20 h-20 rounded-full object-cover border border-gray-200 bg-gray-50 flex-shrink-0">`;
+            } else {
+                const isFemale = gender === 'Nữ';
+                const iconSvg = isFemale 
+                    ? `<svg class="w-12 h-12 text-pink-200 absolute" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`
+                    : `<svg class="w-12 h-12 text-blue-200 absolute" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
+                
+                const nameParts = name.split(' ');
+                const initial = nameParts.length > 0 ? nameParts[nameParts.length - 1].charAt(0).toUpperCase() : '';
+
+                modalAvatarContainer.innerHTML = `
+                    <div class="w-20 h-20 rounded-full border border-gray-200 bg-gray-50 flex-shrink-0 flex items-center justify-center relative overflow-hidden">
+                        ${iconSvg}
+                        <div class="absolute inset-0 flex items-center justify-center bg-white/20 backdrop-blur-[1px]">
+                            <span class="text-gray-600/50 font-bold text-3xl uppercase select-none drop-shadow-sm">${initial}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('modalName').textContent = name;
+            document.getElementById('modalPosition').textContent = delegate['Nghề nghiệp, chức vụ'] || 'Đại biểu Quốc hội';
+            
+            document.getElementById('modalDob').textContent = delegate['Ngày tháng năm sinh'] || 'Không rõ';
+            document.getElementById('modalGender').textContent = delegate['Giới tính'] || 'Không rõ';
+            
+            const ethnicity = delegate['Dân tộc'] || '';
+            const religion = delegate['Tôn giáo'] || '';
+            document.getElementById('modalEthnicity').textContent = [ethnicity, religion].filter(Boolean).join(' / ') || 'Không rõ';
+            
+            document.getElementById('modalHometown').textContent = delegate['Quê quán'] || 'Không rõ';
+            
+            document.getElementById('modalEdu').textContent = delegate['Giáo dục phổ thông'] || 'Không rõ';
+            document.getElementById('modalDegree').textContent = delegate['Học hàm, học vị'] || 'Không rõ';
+            document.getElementById('modalMajor').textContent = delegate['Chuyên môn, nghiệp vụ'] || 'Không rõ';
+            document.getElementById('modalPolitical').textContent = delegate['Lý luận chính trị'] || 'Không rõ';
+            
+            document.getElementById('modalWorkplace').textContent = delegate['Nơi công tác'] || 'Không rõ';
+            document.getElementById('modalProvince').textContent = delegate['Quê'] !== 'Không' ? delegate['Quê'] : 'Trung ương';
+            document.getElementById('modalPartyDate').textContent = delegate['Ngày vào Đảng'] || 'Không rõ';
+            document.getElementById('modalNA').textContent = delegate['Đại biểu QH (nếu có)'] || 'Lần đầu';
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            // Trigger reflow
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            modalContent.classList.remove('scale-95');
+            
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        closeBtns.forEach(btn => btn.addEventListener('click', closeModal));
+        
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+
+        // Start app
+        init();
+    </script>
+</body>
+</html>
