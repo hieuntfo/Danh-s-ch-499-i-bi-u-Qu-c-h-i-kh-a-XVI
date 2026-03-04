@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách 499 Đại biểu Quốc hội Khóa XV - VnExpress</title>
+    <title>Danh sách 500 Đại biểu Quốc hội Khóa XVI - VnExpress</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Arial:wght@400;700&display=swap" rel="stylesheet">
     <script>
@@ -22,6 +22,9 @@
                     fontFamily: {
                         serif: ['Merriweather', 'serif'],
                         sans: ['Arial', 'sans-serif']
+                    },
+                    screens: {
+                        '3xl': '1920px',
                     }
                 }
             }
@@ -78,11 +81,14 @@
             transition: width 0.5s ease-out;
         }
         .chart-label {
-            width: 60px;
+            width: 120px;
             text-align: right;
             padding-right: 8px;
-            font-size: 12px;
+            font-size: 11px;
             color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .chart-value {
             font-size: 12px;
@@ -106,7 +112,7 @@
 
     <!-- Header -->
     <header class="border-b border-gray-200 bg-white sticky top-0 z-40 h-14 flex items-center">
-        <div class="container mx-auto px-4 max-w-7xl flex items-center justify-between w-full">
+        <div class="container mx-auto px-4 max-w-[1920px] flex items-center justify-between w-full">
             <div class="flex items-center gap-4">
                 <button class="text-gray-500 hover:text-primary">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -114,7 +120,7 @@
                 <img src="https://s1.vnecdn.net/vnexpress/restruct/i/v863/v2_2019/pc/graphics/logo.svg" alt="VnExpress" class="h-6">
             </div>
             <div class="flex items-center gap-2">
-                <h1 class="text-lg md:text-xl font-bold text-primary font-serif">Danh sách 499 đại biểu Quốc hội khóa XV</h1>
+                <h1 class="text-lg md:text-xl font-bold text-primary font-serif">Danh sách 500 đại biểu Quốc hội khóa XVI</h1>
             </div>
             <div class="flex items-center gap-2">
                 <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200">f</button>
@@ -124,7 +130,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-6 max-w-7xl">
+    <main class="container mx-auto px-4 py-6 max-w-[1920px]">
         
         <!-- Filters Section -->
         <div class="sticky top-14 z-30 bg-white py-4 mb-6 border-b border-gray-200 shadow-sm -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -177,9 +183,9 @@
             </div>
         </div>
 
-        <div class="flex flex-col md:flex-row gap-8">
+        <div class="flex flex-col lg:flex-row gap-8">
             <!-- Sidebar Charts -->
-            <aside class="w-full md:w-64 flex-shrink-0 border-r border-gray-200 pr-6 hidden md:block sticky top-40 self-start max-h-[calc(100vh-10rem)] overflow-y-auto modal-scroll pb-4">
+            <aside class="w-full lg:w-[350px] flex-shrink-0 lg:border-r lg:border-gray-200 lg:pr-6 sticky top-40 self-start max-h-[calc(100vh-10rem)] overflow-y-auto modal-scroll pb-4">
                 <div class="sidebar-title">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>
                     Cơ cấu ứng cử viên
@@ -206,6 +212,13 @@
                     <div id="genderChartContainer" class="flex flex-col gap-2 relative">
                     </div>
                 </div>
+
+                <!-- Hometown Chart -->
+                <div class="mb-8">
+                    <h3 class="font-bold text-gray-800 mb-4">Quê quán</h3>
+                    <div id="hometownChartContainer" class="flex flex-col gap-2 relative">
+                    </div>
+                </div>
             </aside>
 
             <!-- Main Grid -->
@@ -217,7 +230,7 @@
                 </div>
 
                 <!-- Grid -->
-                <div id="delegatesGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-4 gap-y-8 hidden">
+                <div id="delegatesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-x-4 gap-y-8 hidden">
                     <!-- Cards will be injected here -->
                 </div>
 
@@ -319,7 +332,8 @@
             </div>
             
             <!-- Modal Footer -->
-            <div class="p-4 border-t border-gray-200 bg-gray-50 rounded-b flex justify-end">
+            <div class="p-4 border-t border-gray-200 bg-gray-50 rounded-b flex items-center justify-end gap-4">
+                <span class="text-xs text-gray-400 italic">Ấn ESC để đóng</span>
                 <button id="closeModalBtnFooter" class="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded text-sm font-medium transition-colors">Đóng</button>
             </div>
         </div>
@@ -331,6 +345,16 @@
         
         let delegatesData = [];
         let filteredData = [];
+        const currentYear = new Date().getFullYear();
+
+        function getAgeColor(age) {
+            if (!age) return '#F3F4F6'; // bg-gray-100
+            if (age < 35) return '#E0F2FE'; // Light Blue
+            if (age <= 45) return '#F0FDF4'; // Light Green
+            if (age <= 55) return '#FEFCE8'; // Light Yellow
+            if (age <= 65) return '#FFF7ED'; // Light Orange
+            return '#FDF2F8'; // Light Pink
+        }
 
         // DOM Elements
         const grid = document.getElementById('delegatesGrid');
@@ -415,7 +439,6 @@
             
             if (isNaN(year)) return null;
             
-            const currentYear = new Date().getFullYear(); // Or 2021 if it's for Khóa XV
             return currentYear - year;
         }
 
@@ -479,6 +502,7 @@
                     imgHtml = `<img src="${delegate['Ảnh']}" alt="${name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300">`;
                 } else {
                     const isFemale = gender === 'Nữ';
+                    const bgColor = getAgeColor(delegate._age);
                     const iconSvg = isFemale 
                         ? `<svg class="w-24 h-24 text-pink-200 absolute" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`
                         : `<svg class="w-24 h-24 text-blue-200 absolute" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
@@ -487,10 +511,10 @@
                     const initial = nameParts.length > 0 ? nameParts[nameParts.length - 1].charAt(0).toUpperCase() : '';
 
                     imgHtml = `
-                        <div class="w-full h-full bg-gray-50 flex items-center justify-center relative overflow-hidden group-hover:scale-105 transition-transform duration-300">
+                        <div class="w-full h-full flex items-center justify-center relative overflow-hidden group-hover:scale-105 transition-transform duration-300" style="background-color: ${bgColor}">
                             ${iconSvg}
-                            <div class="absolute inset-0 flex items-center justify-center p-2 bg-white/20 backdrop-blur-[1px]">
-                                <span class="text-gray-600/50 font-bold text-6xl uppercase select-none drop-shadow-sm">${initial}</span>
+                            <div class="absolute inset-0 flex items-center justify-center p-2 bg-white/10 backdrop-blur-[0.5px]">
+                                <span class="text-gray-600/40 font-bold text-6xl uppercase select-none drop-shadow-sm">${initial}</span>
                             </div>
                         </div>
                     `;
@@ -541,6 +565,21 @@
             drawChart('ageChartContainer', ageStats);
             drawChart('eduChartContainer', eduStats);
             drawChart('genderChartContainer', genderStats);
+
+            // Hometown Stats
+            const hometownStats = {};
+            data.forEach(d => {
+                if (d['Quê quán'] && d['Quê quán'] !== 'Không') {
+                    const parts = d['Quê quán'].split(',');
+                    const province = parts[parts.length - 1].trim();
+                    hometownStats[province] = (hometownStats[province] || 0) + 1;
+                }
+            });
+            const sortedHometown = Object.fromEntries(
+                Object.entries(hometownStats)
+                .sort(([,a],[,b]) => b - a)
+            );
+            drawChart('hometownChartContainer', sortedHometown);
         }
 
         function drawChart(containerId, stats) {
@@ -551,7 +590,7 @@
             
             // Add X-axis scale at the bottom
             const xAxis = document.createElement('div');
-            xAxis.className = 'flex justify-between text-[10px] text-gray-400 mt-2 ml-[60px] border-t border-gray-200 pt-1';
+            xAxis.className = 'flex justify-between text-[10px] text-gray-400 mt-2 ml-[120px] border-t border-gray-200 pt-1';
             xAxis.innerHTML = `<span>0</span><span>${Math.round(maxVal/2)}</span><span>${maxVal}</span>`;
 
             Object.entries(stats).forEach(([label, value]) => {
@@ -635,6 +674,7 @@
                 modalAvatarContainer.innerHTML = `<img src="${delegate['Ảnh']}" alt="${name}" class="w-20 h-20 rounded-full object-cover border border-gray-200 bg-gray-50 flex-shrink-0">`;
             } else {
                 const isFemale = gender === 'Nữ';
+                const bgColor = getAgeColor(delegate._age);
                 const iconSvg = isFemale 
                     ? `<svg class="w-12 h-12 text-pink-200 absolute" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`
                     : `<svg class="w-12 h-12 text-blue-200 absolute" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
@@ -643,10 +683,10 @@
                 const initial = nameParts.length > 0 ? nameParts[nameParts.length - 1].charAt(0).toUpperCase() : '';
 
                 modalAvatarContainer.innerHTML = `
-                    <div class="w-20 h-20 rounded-full border border-gray-200 bg-gray-50 flex-shrink-0 flex items-center justify-center relative overflow-hidden">
+                    <div class="w-20 h-20 rounded-full border border-gray-200 flex-shrink-0 flex items-center justify-center relative overflow-hidden" style="background-color: ${bgColor}">
                         ${iconSvg}
-                        <div class="absolute inset-0 flex items-center justify-center bg-white/20 backdrop-blur-[1px]">
-                            <span class="text-gray-600/50 font-bold text-3xl uppercase select-none drop-shadow-sm">${initial}</span>
+                        <div class="absolute inset-0 flex items-center justify-center bg-white/10 backdrop-blur-[0.5px]">
+                            <span class="text-gray-600/40 font-bold text-3xl uppercase select-none drop-shadow-sm">${initial}</span>
                         </div>
                     </div>
                 `;
